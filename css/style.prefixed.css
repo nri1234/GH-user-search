@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+body {
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+.container {
+    margin: 10px auto;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+}
+.search {
+    padding: 10px;
+    border: solid 2px black;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 90vw;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+        flex-direction: row;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+}
+label {
+    font-size: 14px;
+    padding: 10px;
+}
+form input {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: baseline;
+        align-items: baseline;
+    -ms-flex-direction: row;
+        flex-direction: row;
+    width: 90%;
+}
+
+.fab {
+    font-size: 40px;
+    margin: 0 6px;
+    color: black;
+}
+
+.search form input {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.search form input:focus {
+    box-shadow: 0 0 2px 1px black;
+    outline: none;
+}
+
+.users {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -ms-flex-pack: center;
+        justify-content: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.user {
+    border: solid 2px black;
+    border-radius: 10px;
+    margin: 5px 10px;
+    padding: 5px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    -ms-flex-align: center;
+        align-items: center;
+    width: 120px;
+}
+
+.user a {
+    text-decoration: none;
+    color: black;
+    font-weight: 900;
+}
+
+.users .user a:hover {
+    color: darkblue;
+}
+

@@ -36,11 +36,11 @@ var App = function (_React$Component) {
             event.preventDefault();
             var searchText = this.state.searchText;
 
-            var url = "https://api.github.com/search/users?q=" + searchText;
+            var url = "https://api.githb.com/search/users?q=" + searchText;
             fetch(url).then(function (response) {
                 return response.json();
             }).catch(function (error) {
-                return _this2.setState("nothing found", error);
+                return _this2.state.error("nothing found", error);
             }).then(function (responseJson) {
                 return _this2.setState({ users: responseJson.items });
             });
@@ -51,6 +51,13 @@ var App = function (_React$Component) {
             var _this3 = this;
 
             //wyszukiwarka
+            if (this.state.error) {
+                return React.createElement(
+                    "h1",
+                    null,
+                    "Something went wrong"
+                );
+            }
             return React.createElement(
                 "div",
                 { className: "container" },
@@ -83,13 +90,7 @@ var App = function (_React$Component) {
                         })
                     )
                 ),
-                React.createElement(UsersList, { users: this.state.users }),
-                "if(this.state.error) ",
-                React.createElement(
-                    "h1",
-                    null,
-                    "Something went wrong"
-                )
+                React.createElement(UsersList, { users: this.state.users })
             );
         }
     }]);

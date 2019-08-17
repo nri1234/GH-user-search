@@ -14,15 +14,18 @@ class App extends React.Component {
     onSubmit(event) {
         event.preventDefault();
         const { searchText } = this.state;
-        const url = `https://api.github.com/search/users?q=${searchText}`;
+        const url = `https://api.githb.com/search/users?q=${searchText}`;
         fetch(url)
             .then(response => response.json())
-            .catch(error => this.setState(`nothing found`, error))
+            .catch(error => this.state.error(`nothing found`, error))
             .then(responseJson => this.setState({ users: responseJson.items }));
     }
 
     render() {
         //wyszukiwarka
+        if (this.state.error) {
+            return <h1>Something went wrong</h1>;
+        }
         return (
             <div className="container">
                 <div className="search">
@@ -40,7 +43,6 @@ class App extends React.Component {
                     </form>
                 </div>
                 <UsersList users={this.state.users} />
-                if(this.state.error) {<h1>Something went wrong</h1>}
             </div>
         );
     }

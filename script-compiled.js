@@ -39,6 +39,8 @@ var App = function (_React$Component) {
             var url = "https://api.github.com/search/users?q=" + searchText;
             fetch(url).then(function (response) {
                 return response.json();
+            }).catch(function (error) {
+                return _this2.setState("nothing found", error);
             }).then(function (responseJson) {
                 return _this2.setState({ users: responseJson.items });
             });
@@ -81,7 +83,13 @@ var App = function (_React$Component) {
                         })
                     )
                 ),
-                React.createElement(UsersList, { users: this.state.users })
+                React.createElement(UsersList, { users: this.state.users }),
+                "if(this.state.error) ",
+                React.createElement(
+                    "h1",
+                    null,
+                    "Something went wrong"
+                )
             );
         }
     }]);

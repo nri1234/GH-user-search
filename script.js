@@ -17,6 +17,7 @@ class App extends React.Component {
         const url = `https://api.github.com/search/users?q=${searchText}`;
         fetch(url)
             .then(response => response.json())
+            .catch(error => this.setState(`nothing found`, error))
             .then(responseJson => this.setState({ users: responseJson.items }));
     }
 
@@ -39,6 +40,7 @@ class App extends React.Component {
                     </form>
                 </div>
                 <UsersList users={this.state.users} />
+                if(this.state.error) {<h1>Something went wrong</h1>}
             </div>
         );
     }

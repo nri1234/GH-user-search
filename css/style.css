@@ -22,6 +22,11 @@ body {
     justify-content: center;
     align-items: center;
 }
+.search p {
+    font-size: 1.2em;
+    margin-left: 15px;
+    color: black;
+}
 label {
     font-size: 14px;
     padding: 10px;
@@ -80,4 +85,7 @@ form input {
 .users .user a:hover {
     color: darkblue;
 }
-
+p {
+    font-size: 1.8em;
+    color: red;
+}

@@ -3,7 +3,10 @@ class App extends React.Component {
         super();
         this.state = {
             searchText: "",
-            users: [] //
+            users: [],
+            error: null,
+            loading: false,
+            initialized: null
         };
     }
 
@@ -14,35 +17,55 @@ class App extends React.Component {
     onSubmit(event) {
         event.preventDefault();
         const { searchText } = this.state;
-        const url = `https://api.githb.com/search/users?q=${searchText}`;
+        const url = `https://api.github.com/search/users?q=${searchText}`;
+        this.setState({ loading: true });
+        this.setState({ initialized: 1 });
         fetch(url)
             .then(response => response.json())
-            .catch(error => this.state.error(`nothing found`, error))
-            .then(responseJson => this.setState({ users: responseJson.items }));
+            .then(responseJson =>
+                this.setState({
+                    users: responseJson.items,
+                    loading: false,
+                    initialized: null
+                })
+            )
+            .catch(error => {
+                this.setState({
+                    error: "Oh no, something went wrong.." + error,
+                    loading: false
+                });
+            });
     }
 
     render() {
-        //wyszukiwarka
-        if (this.state.error) {
-            return <h1>Something went wrong</h1>;
-        }
+        console.log("render...", this.state);
+
         return (
             <div className="container">
                 <div className="search">
                     <i className="fab fa-github" />
                     <h1>GitHub</h1>
-
-                    <form onSubmit={event => this.onSubmit(event)}>
-                        <label htmlFor="searchText">Search by user name</label>
-                        <input
-                            type="text"
-                            id="searchText"
-                            onChange={event => this.onChangeHandle(event)}
-                            value={this.state.searchText}
-                        />
-                    </form>
+                    {this.state.loading ? (
+                        <p>Searching...</p>
+                    ) : (
+                        <form onSubmit={event => this.onSubmit(event)}>
+                            <label htmlFor="searchText">
+                                Search by user name
+                            </label>
+                            <input
+                                type="text"
+                                id="searchText"
+                                onChange={event => this.onChangeHandle(event)}
+                                value={this.state.searchText}
+                            />
+                        </form>
+                    )}
                 </div>
                 <UsersList users={this.state.users} />
+                {this.state.error ? <p>{this.state.error}</p> : null}
+                {this.state.users.length === 0 && this.state.initialized ? (
+                    <p>Sorry but no user found</p>
+                ) : null}
             </div>
         );
     }

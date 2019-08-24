@@ -18,7 +18,10 @@ var App = function (_React$Component) {
 
         _this.state = {
             searchText: "",
-            users: [] //
+            users: [],
+            error: null,
+            loading: false,
+            initialized: null
         };
         return _this;
     }
@@ -36,13 +39,22 @@ var App = function (_React$Component) {
             event.preventDefault();
             var searchText = this.state.searchText;
 
-            var url = "https://api.githb.com/search/users?q=" + searchText;
+            var url = "https://api.github.com/search/users?q=" + searchText;
+            this.setState({ loading: true });
+            this.setState({ initialized: 1 });
             fetch(url).then(function (response) {
                 return response.json();
-            }).catch(function (error) {
-                return _this2.state.error("nothing found", error);
             }).then(function (responseJson) {
-                return _this2.setState({ users: responseJson.items });
+                return _this2.setState({
+                    users: responseJson.items,
+                    loading: false,
+                    initialized: null
+                });
+            }).catch(function (error) {
+                _this2.setState({
+                    error: "Oh no, something went wrong.." + error,
+                    loading: false
+                });
             });
         }
     }, {
@@ -50,14 +62,8 @@ var App = function (_React$Component) {
         value: function render() {
             var _this3 = this;
 
-            //wyszukiwarka
-            if (this.state.error) {
-                return React.createElement(
-                    "h1",
-                    null,
-                    "Something went wrong"
-                );
-            }
+            console.log("render...", this.state);
+
             return React.createElement(
                 "div",
                 { className: "container" },
@@ -70,7 +76,11 @@ var App = function (_React$Component) {
                         null,
                         "GitHub"
                     ),
-                    React.createElement(
+                    this.state.loading ? React.createElement(
+                        "p",
+                        null,
+                        "Searching..."
+                    ) : React.createElement(
                         "form",
                         { onSubmit: function onSubmit(event) {
                                 return _this3.onSubmit(event);
@@ -90,7 +100,17 @@ var App = function (_React$Component) {
                         })
                     )
                 ),
-                React.createElement(UsersList, { users: this.state.users })
+                React.createElement(UsersList, { users: this.state.users }),
+                this.state.error ? React.createElement(
+                    "p",
+                    null,
+                    this.state.error
+                ) : null,
+                this.state.users.length === 0 && this.state.initialized ? React.createElement(
+                    "p",
+                    null,
+                    "Sorry but no user found"
+                ) : null
             );
         }
     }]);

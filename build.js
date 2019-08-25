@@ -21,7 +21,7 @@ var App = function (_React$Component) {
             users: [],
             error: null,
             loading: false,
-            initialized: null
+            initialized: false
         };
         return _this;
     }
@@ -41,14 +41,13 @@ var App = function (_React$Component) {
 
             var url = "https://api.github.com/search/users?q=" + searchText;
             this.setState({ loading: true });
-            this.setState({ initialized: 1 });
+            this.setState({ initialized: true });
             fetch(url).then(function (response) {
                 return response.json();
             }).then(function (responseJson) {
                 return _this2.setState({
                     users: responseJson.items,
-                    loading: false,
-                    initialized: null
+                    loading: false
                 });
             }).catch(function (error) {
                 _this2.setState({
@@ -106,7 +105,7 @@ var App = function (_React$Component) {
                     null,
                     this.state.error
                 ) : null,
-                this.state.users.length === 0 && this.state.initialized ? React.createElement(
+                this.state.users.length === 0 && this.state.initialized && !this.state.error && !this.state.loading ? React.createElement(
                     "p",
                     null,
                     "Sorry but no user found"

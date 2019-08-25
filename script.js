@@ -6,7 +6,7 @@ class App extends React.Component {
             users: [],
             error: null,
             loading: false,
-            initialized: null
+            initialized: false
         };
     }
 
@@ -19,14 +19,13 @@ class App extends React.Component {
         const { searchText } = this.state;
         const url = `https://api.github.com/search/users?q=${searchText}`;
         this.setState({ loading: true });
-        this.setState({ initialized: 1 });
+        this.setState({ initialized: true });
         fetch(url)
             .then(response => response.json())
             .then(responseJson =>
                 this.setState({
                     users: responseJson.items,
-                    loading: false,
-                    initialized: null
+                    loading: false
                 })
             )
             .catch(error => {
@@ -63,8 +62,11 @@ class App extends React.Component {
                 </div>
                 <UsersList users={this.state.users} />
                 {this.state.error ? <p>{this.state.error}</p> : null}
-                {this.state.users.length === 0 && this.state.initialized ? (
-                    <p>Sorry but no user found</p>
+                {this.state.users.length === 0
+                 && this.state.initialized
+                 && !this.state.error
+                 && !this.state.loading ? (
+                <p>Sorry but no user found</p>
                 ) : null}
             </div>
         );
